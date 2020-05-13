@@ -30,10 +30,9 @@
       delay: 2
 
     - name: Unpack node_exporter binary
-      become: false
-      unarchive:
-        src: "/tmp/node_exporter-{{ node_exporter_version }}.linux-{{ go_arch }}.tar.gz"
-        dest: "/tmp"
+      shell:
+        cmd: tar -xvf "/tmp/node_exporter-{{ node_exporter_version }}.linux-{{ go_arch }}.tar.gz"
+        chdir: /tmp
         creates: "/tmp/node_exporter-{{ node_exporter_version }}.linux-{{ go_arch }}/node_exporter"
 
     - name: Propagate node_exporter binaries
