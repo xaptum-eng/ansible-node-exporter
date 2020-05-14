@@ -45,4 +45,9 @@
         remote_src: yes
       notify: restart node_exporter
       when: not ansible_check_mode
-  when: node_exporter_binary_install_dir | length == 0
+
+- name: Add cap_net_bind_service to node_exporter
+  capabilities:
+    path: "{{ node_exporter_binary_install_dir }}/node_exporter"
+    capability: cap_net_bind_service=+eip
+    state: present
