@@ -36,7 +36,7 @@
     - node_exporter_install
 
 - name: Gather currently installed node_exporter version (if any)
-  command: "{{ _node_exporter_binary_install_dir }}/node_exporter --version"
+  command: "{{ node_exporter_binary_install_dir }}/node_exporter --version"
   args:
     warn: false
   changed_when: false
