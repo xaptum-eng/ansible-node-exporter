@@ -29,7 +29,7 @@
 
 - name: Check if node_exporter is installed
   stat:
-    path: "{{ _node_exporter_binary_install_dir }}/node_exporter"
+    path: "{{ node_exporter_binary_install_dir }}/node_exporter"
   register: __node_exporter_is_installed
   check_mode: false
   tags:

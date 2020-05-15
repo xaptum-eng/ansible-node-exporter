@@ -6,10 +6,8 @@ After=network-online.target
 StartLimitInterval=0
 
 [Service]
-Type=simple
-User={{ _node_exporter_system_user }}
-Group={{ _node_exporter_system_group }}
-ExecStart={{ _node_exporter_binary_install_dir }}/node_exporter \
+User={{ node_exporter_system_user }}
+ExecStart={{ node_exporter_binary_install_dir }}/node_exporter \
 {% for collector in node_exporter_enabled_collectors -%}
 {%   if not collector is mapping %}
     --collector.{{ collector }} \
@@ -28,24 +26,8 @@ ExecStart={{ _node_exporter_binary_install_dir }}/node_exporter \
 
 SyslogIdentifier=node_exporter
 Restart=always
-RestartSec=1
+RestartSec=5
 
-PrivateTmp=yes
-{% for m in ansible_mounts if m.mount == '/home' %}
-ProtectHome=read-only
-{% else %}
-ProtectHome=yes
-{% endfor %}
-NoNewPrivileges=yes
-
-{% if node_exporter_systemd_version | int >= 232 %}
-ProtectSystem=strict
-ProtectControlGroups=true
-ProtectKernelModules=true
-ProtectKernelTunables=yes
-{% else %}
-ProtectSystem=full
-{% endif %}
 
 [Install]
 WantedBy=multi-user.target
