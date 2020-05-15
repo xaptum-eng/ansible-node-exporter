@@ -1,21 +1,21 @@
 ---
 - name: Create the node_exporter group
   group:
-    name: "{{ _node_exporter_system_group }}"
+    name: "{{ node_exporter_system_group }}"
     state: present
     system: true
-  when: _node_exporter_system_group != "root"
+  when: node_exporter_system_group != "root"
 
 - name: Create the node_exporter user
   user:
-    name: "{{ _node_exporter_system_user }}"
-    groups: "{{ _node_exporter_system_group }}"
+    name: "{{ node_exporter_system_user }}"
+    groups: "{{ node_exporter_system_group }}"
     append: true
     shell: /usr/sbin/nologin
     system: true
     create_home: false
     home: /
-  when: _node_exporter_system_user != "root"
+  when: node_exporter_system_user != "root"
 
 - block:
     - name: Download node_exporter binary to local folder
@@ -40,8 +40,8 @@
         src: "/tmp/node_exporter-{{ node_exporter_version }}.linux-{{ go_arch }}/node_exporter"
         dest: "{{ node_exporter_binary_install_dir }}/node_exporter"
         mode: 0755
-        owner: "{{ _node_exporter_system_user }}"
-        group: "{{ _node_exporter_system_group }}"
+        owner: "{{ node_exporter_system_user }}"
+        group: "{{ node_exporter_system_group }}"
         remote_src: yes
       notify: restart node_exporter
       when: not ansible_check_mode
