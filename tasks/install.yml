@@ -46,6 +46,11 @@
       notify: restart node_exporter
       when: not ansible_check_mode
 
+- name: Install the package libcap2-bin
+  apt:
+    name: libcap2-bin
+    state: present
+
 - name: Add cap_net_bind_service to node_exporter
   capabilities:
     path: "{{ node_exporter_binary_install_dir }}/node_exporter"
